@@ -1,0 +1,73 @@
+{% extends 'goodsLayout.html' %}
+{% load static %}
+
+{% block content %}
+<div class="page__title"><h2>Корзина {% if not cart.products.count %}пуста{% endif %}</h2></div>
+
+<div class="cart">
+    <div class="cart__left">
+        {% for item in cart.products.all %}
+        <div class="cart__left--item">
+            <img src="{{ item.product.image.url }}" class="cart__left--item-Img" alt="Cart item img">
+            <div class="cart__left--item-flex">
+                <div class="cart__item--title">{{ item.product.title }}</div>
+                <div class="cart__item--inWrapper">
+                    <div class="cart__item--parameters">
+                        <div class="cart__item--parameters-title">Характеристики:</div>
+                        <ul class="cart__item--parameters-values">
+                            <li class="cart__item--parameters-value">
+                                Цвет: <span>Красный</span>
+                            </li>
+                            <li class="cart__item--parameters-value">
+                                Размер: <span>39-47</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="cart__item--amount">
+                        <div class="cart__item--parameters-title">Количество:</div>
+                        <div class="cart__item--amount-wrapper">
+                            <form action="{% url 'change_qty' slug=item.product.slug %}" method="POST">
+                                {% csrf_token %}
+                                <input type="number" class="cart__item--amount-sum" name="qty" style="width: 70px;" min="1"
+                                       value="{{ item.qty }}">
+                                <input type="submit" class="btn btn--green" value="Изменить кол-во">
+                            </form>
+                        </div>
+                    </div>
+                    <div class="cart__item--price">
+                        <div class="cart__item--price-actual">{{ item.product.price }}</div>
+                        <div class="cart__item--price-prev">{{ item.product.price_before }}</div>
+                    </div>
+                </div>
+                <div class="cart__item--remove"><a href="{% url 'delete_from_cart' slug=item.product.slug %}">УДАЛИТЬ</a></div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="cart__right">
+        <div class="cart__right-sum">
+            <div class="cart__sum-left">Итог:</div>
+            <div class="cart__sum-right">{{ cart.final_price }}</div>
+        </div>
+        <div class="cart__right-line"></div>
+        <div class="cart__right-discount">
+            <div class="cart__discount-without">
+                <div class="cart__without-left">Без скидки:</div>
+                <div class="cart__without-right">{{ cart.final_price_without }}</div>
+            </div>
+            <div class="cart__discount-with">
+                <div class="cart__with-left">Скидка:</div>
+                <div class="cart__with-right">{{ cart.final_price_discount }}</div>
+            </div>
+        </div>
+        <div class="cart__right-line"></div>
+        <div class="cart__right-terms">
+            <img src="{% static 'assets/images/icons/agree2.svg' %}" alt=""> Согласен с условиями <a href="#">Правил пользования
+            интернет магазином</a>
+        </div>
+        <a href="{% url 'checkout' %}" class="btn btn--green btn--full">оформить заказ</a>
+        <img class="cart__right-img" src="{% static 'assets/images/orderImg.svg' %}" alt="">
+    </div>
+</div>
+
+{% endblock content %}

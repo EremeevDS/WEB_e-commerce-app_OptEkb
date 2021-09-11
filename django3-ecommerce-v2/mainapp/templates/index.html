@@ -1,0 +1,44 @@
+{% extends "indexLayout.html" %}
+{% load static %}
+
+{% block content %}
+{% if messages %}
+<div id="message">
+    {% for message in messages %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>{{ message }}</strong>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+<div class="page__search-wrapper">
+    <form class="page__search" action="{% url 'search' %}" method="GET">
+        {% csrf_token %}
+        <input type="search" name="q" class="form__control form__control-fos16"
+               placeholder="Умная колонка">
+    </form>
+</div>
+<div class="goods">
+    {% for product in products %}
+    <div class="goods__item">
+        <a href="{{ product.get_absolute_url }}"><img src="{{ product.image.url }}" alt=""></a>
+        <div class="goods__info">
+            <div class="goods__category"><a href="">{{ product.category }}</a></div>
+            <div class="goods__title"><a href="{{ product.get_absolute_url }}">{{ product.title }}</a></div>
+            <div class="goods__info-bottom">
+                <div class="goods__price">{{ product.price }}</div>
+                {% if request.user.is_authenticated %}
+                <div class="goods__cart"><a href="{% url 'add_to_cart' slug=product.slug %}">В корзину</a></div>
+                {% else %}
+                <div class="goods__cart"><a href="{% url 'profile' %}">В корзину</a></div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<!--<div class="goods__btn">
+    <div class="btn btn--blue btn--xl">Показать еще</div>
+</div>-->
+
+{% endblock content %}

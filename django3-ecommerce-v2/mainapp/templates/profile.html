@@ -1,0 +1,32 @@
+{% extends "profileLayout.html" %}
+{% load static %}
+{% block content %}
+{% if not request.user.is_authenticated %}
+<div class="account">
+   <div class="account__body">
+      <div class="account__body-wrapper">
+         <div class="account__title">ПРОФИЛЬ</div>
+         <div class="account__desc">
+            <p>Зарегистрируйте аккаунт бесплатно, и получите
+               возможность совершать покупки, получать
+               персональные предложения, отслеживать статус заказа.</p>
+         </div>
+         <div class="account__btns">
+            <a href="{% url 'login' %}" class="account__btn">
+               <img src="{% static 'assets/images/account/signin.svg' %}" alt="">
+               <p>Вход</p>
+            </a>
+            <a href="{% url 'registration' %}" class="account__btn">
+               <img src="{% static 'assets/images/account/signup.svg' %}" alt="">
+               <p>Регистрация</p>
+            </a>
+         </div>
+      </div>
+   </div>
+</div>
+{% else %}
+<span class="navbar-text text-dark" style="font-size: 2rem;">Здравствуйте, {{ request.user.username }}    </a><a
+        href="{% url 'logout' %}">Выйти</a></span><hr>
+<span style="font-size: 2.5rem;">СТРАНИЦА ПРОФИЛЯ В РАЗРАБОТКЕ!</span>
+{% endif %}
+{% endblock content %}

@@ -1,0 +1,13 @@
+{% extends 'goodsLayout.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="page__title"><h2>Оформление заказа</h2></div>
+
+<form action="{% url 'make_order' %}" method="POST">
+  {% csrf_token %}
+  {{ form|crispy }}
+  <input type="submit" class="btn btn-success btn-block mb-3" values="Оформить заказ">
+</form>
+
+{% endblock %}

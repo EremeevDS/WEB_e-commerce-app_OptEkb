@@ -1,0 +1,168 @@
+{% extends "goodsLayout.html" %}
+{% load static %}
+
+{% block content %}
+<div class="goodFull">
+    <div class="goodFull__main-title goodFull__main-title-m">
+        <div class="goodFull__main-title-left">
+            <h2>{{ product.title }}</h2>
+        </div>
+        <div class="goodFull__main-title-right">
+            <a href="/">Назад в каталог</a>
+        </div>
+        <span class="goodFull__main-title-line"></span>
+    </div>
+    <div class="goodFull__images">
+        <div class="goodFull__images-left">
+            {% for image in product.images.all %}
+            <a href="{{ image.image.url }}" class="goodFull__images-left js-smartPhoto">
+                <img src="{{ image.image.url }}" alt="">
+            </a>
+            {% endfor %}
+        </div>
+        <div class="goodFull__images-right">
+            <a href="{{ product.image.url }}" class="goodFull__images-right js-smartPhoto">
+                <img src="{{ product.image.url }}" alt="">
+            </a>
+        </div>
+    </div>
+    <div class="goodFull__main">
+        <div class="goodFull__main-title">
+            <div class="goodFull__main-title-left">
+                <h2>{{ product.title }}</h2>
+            </div>
+            <div class="goodFull__main-title-right">
+                <a href="/">Назад в каталог</a>
+            </div>
+            <span class="goodFull__main-title-line"></span>
+        </div>
+        <div class="goodFull__main-order">
+            <div class="goodFull__main-shortDesc">
+                <div class="goodFull__main-shortDesc-title">
+                    Краткое описание
+                </div>
+                {{ product.short_description }} <span><a href="#full-desc">полное описание</a></span>
+            </div>
+            <div class="goodFull__main-buy">
+                <div class="goodFull__main-buy-purchase">
+                    <div class="goodFull__main-buy-priceBefore">
+                        <div class="goodFull__main-buy-priceBefore-last">
+                            {{ product.price_before }}
+                        </div>
+                        <div class="goodFull__main-buy-priceBefore-result" id="multiplyValue">
+                            {{ product.price }}
+                        </div>
+                    </div>
+                    <div class="goodFull__main-buy-buy">
+                        {% if request.user.is_authenticated %}
+                        <a href="{% url 'add_to_cart' slug=product.slug %}">В корзину</a>
+                        {% else %}
+                        <a href="{% url 'profile' %}">В корзину</a>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="goodFull__main-buy-available">
+                    В наличии - <span>{{ product.amount }}</span>
+                </div>
+                <div class="goodFull__main-buy-emailme">
+                    <form action="/" method="POST" class="form">
+                        <div class="goodFull__main-buy-purchase-title">
+                            Хотите узнать о снижении цены?
+                        </div>
+                        <div class="filters">
+                            <div class="filters__form filters__flex">
+                                <div class="form__group form__group-nob">
+                                    <input type="tel" class="form__control"
+                                           placeholder="Номер телефона">
+                                </div>
+                                <div class="goodFull__main-buy-or">или</div>
+                                <div class="form__group form__group-nob">
+                                    <input type="email" class="form__control"
+                                           placeholder="E-mail">
+                                </div>
+                                <button class="btn btn--green btn--goods" type="submit">отправить</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="goodsCarousel">
+            <div class="goodFull__main-title-left">
+                <h3>Рекомендуем также:</h3>
+            </div>
+
+            <div class="swiper-container-goods">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide goodsCarousel-slide">
+                        <a href="/">
+                            <div class="goodsCarousel__imgWrapper">
+                                <img class="goodsCarousel__img" src="{% static 'assets/images/goods/9233236-1.jpg' %}" alt="">
+                            </div>
+                            <div class="goodsCarousel__title">
+                                <a href=""><h3>Куртка мужская с капюшоном, M65 CASUAL</h3></a>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="swiper-slide goodsCarousel-slide">
+                        <a href="/">
+                            <div class="goodsCarousel__imgWrapper">
+                                <img class="goodsCarousel__img" src="{% static 'assets/images/goods/13038493-1.jpg' %}" alt="">
+                            </div>
+                            <div class="goodsCarousel__title">
+                                <a href=""><h3>Набор Сафари. Aquabeads. игрушки для детей</h3></a>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="swiper-slide goodsCarousel-slide">
+                        <a href="/">
+                            <div class="goodsCarousel__imgWrapper">
+                                <img class="goodsCarousel__img" src="{% static 'assets/images/goods/6448343-1.jpg' %}" alt="">
+                            </div>
+                            <div class="goodsCarousel__title">
+                                <a href=""><h3>Игрушка развивающая Тактилики, Fancy Baby</h3></a>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="swiper-slide goodsCarousel-slide">
+                        <a href="/">
+                            <div class="goodsCarousel__imgWrapper">
+                                <img class="goodsCarousel__img" src="{% static 'assets/images/goods/12155730-1.jpg' %}" alt="">
+                            </div>
+                            <div class="goodsCarousel__title">
+                                <a href=""><h3>Брюки кожаные джоггеры Стелла, GILA</h3></a>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- Add Pagination -->
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="goodFull__description">
+    <div class="goodFull__main-title-left goodFull__main-title-left-blue">
+        <h2>Характеристики товара:</h2>
+    </div>
+    <div class="goodFull__description-body" id="full-desc">
+        <div class="goodFull__description-options">
+            {% for f_name, f_value in product.get_features.items %}
+            <div class="goodFull__options-option">
+                <span class="goodFull__main-title-line"></span>
+                <div class="goodFull__option-left">{{ f_name }}</div>
+                <div class="goodFull__option-right">{{ f_value }}</div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="goodFull__main-title-left goodFull__main-title-left-blue">
+            <h2>Описание:</h2>
+        </div>
+        <p>{{ product.description }}</p>
+    </div>
+</div>
+
+{%  endblock content %}

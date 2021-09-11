@@ -1,0 +1,45 @@
+{% extends 'categoryLayout.html' %}
+{% load search_filter %}
+
+{% block productfilter %}
+<aside class="aside aside-category">
+      <form class="form form__group" action="{% url 'category_detail' slug=category.slug %}" method="GET">
+        <input class="form-control" name="search" type="search" placeholder="Поиск товара" aria-label="Search">
+        <button class="btn btn--green btn--full" type="submit">Поиск</button>
+      </form>
+    <hr>
+    <form action="{% url 'category_detail' slug=category.slug %}" method="GET">
+        {{ category|product_spec }}
+    <p class="text-center">
+        <button class="btn btn--green" type="submit">Поиск</button>
+        <button class="btn btn--blue" type="submit">Сбросить</button>
+    </p>
+    </form>
+</aside>
+
+{% endblock productfilter %}
+{% block content %}
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'index' %}">Главная</a></li>
+        <li class="breadcrumb-item active">{{ category.name }}</li>
+      </ol>
+    </nav>
+<div class="goods">
+  {% for product in category_products %}
+  <div class="goods__item">
+        <a href="{{ product.get_absolute_url }}"><img src="{{ product.image.url }}" alt=""></a>
+        <div class="goods__info">
+            <div class="goods__category"><a href="">{{ product.category }}</a></div>
+            <div class="goods__title"><a href="{{ product.get_absolute_url }}">{{ product.title }}</a></div>
+            <div class="goods__info-bottom">
+                <div class="goods__price">{{ product.price }}</div>
+                <div class="goods__cart"><a href="{% url 'add_to_cart' slug=product.slug %}">В корзину</a>
+                </div>
+            </div>
+        </div>
+    </div>
+  {% endfor %}
+</div>
+
+{% endblock content %}

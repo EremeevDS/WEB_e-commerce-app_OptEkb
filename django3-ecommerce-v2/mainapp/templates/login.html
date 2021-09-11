@@ -1,0 +1,18 @@
+{% extends 'profileLayout.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="account">
+    <div class="account__body">
+        <div class="account__body-wrapper">
+            <div class="account__title">ВХОД</div>
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <input type="submit" class="btn btn--green btn--full" style="margin-top:2rem;" value="Войти">
+            </form>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
